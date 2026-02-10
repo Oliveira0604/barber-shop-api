@@ -10,3 +10,5 @@ const Schedules = mongoose.model(
         date: {type: Date, required: true}
     }, {timestamp: true})
 )
+
+export default Schedules
