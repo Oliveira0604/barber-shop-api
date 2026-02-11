@@ -3,7 +3,7 @@ module.exports = {
   testEnvironment: 'node',
 
   // set jest to find the tests files
-  testMatch: ['**/tests/**/*.test.js'],
+  testMatch: ['**/__tests__/**/*.test.js'],
 
   // clear automatically all the mocks between tests
   clearMocks: true,
