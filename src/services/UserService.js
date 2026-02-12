@@ -2,6 +2,7 @@ import User from '../models/User.js'
 import bcrypt from 'bcrypt'
 import { validateDatas } from '../helpers/validations.js'
 import { formatName, formatCellphoneNumber } from '../helpers/formatting.js'
+import { generateToken } from '../helpers/generate-token.js'
 
 export const addUser = async (datas) => {
 
@@ -33,4 +34,23 @@ export const addUser = async (datas) => {
 
     await user.save()
 
+}
+
+export const userToken = async (userDatas) => {
+
+    const user = await User.findOne({email: userDatas.email})
+
+    if (!user) {
+        throw new Error('Não usuário encontrado.')
+    }
+
+    const checkPassword = bcrypt.compare(userDatas.password, user.password)
+
+    if (!checkPassword) {
+        throw new Error('Email ou senha inválido.')
+    }
+
+    const token = generateToken(user)
+
+    return token
 }
