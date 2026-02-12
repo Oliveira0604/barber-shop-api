@@ -7,8 +7,7 @@ const User = mongoose.model(
         name: {type: String, required: true},
         email: {type: String, requeired: true},
         cellphone: {type: String, required: true},
-        password: {type: String, required: true},
-        isAdmin: {type: Boolean, default: false}
+        password: {type: String, required: true}     
     }, {timestamps: true})
 )
 

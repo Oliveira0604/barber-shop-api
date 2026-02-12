@@ -1,4 +1,4 @@
-export const validateDatas = (datas) => {
+export const validateUserDatas = (datas) => {
 
     // check if the datas are empty
     if (!datas.name || datas.name.trim() === "") {
@@ -58,5 +58,4 @@ export const validateDatas = (datas) => {
         throw new Error('A senha precisa ter pelo menos 1 letra minúscula.')
     }
 
-    return null
 }

@@ -1,28 +1,25 @@
 import User from '../models/User.js'
 import bcrypt from 'bcrypt'
-import { validateDatas } from '../helpers/validations.js'
+import { validateUserDatas } from '../helpers/validations.js'
 import { formatName, formatCellphoneNumber } from '../helpers/formatting.js'
 import { generateToken } from '../helpers/generate-token.js'
 
 export const addUser = async (datas) => {
 
-    const userExist = await User.findOne({email: datas.email})
+    validateUserDatas(datas)
+
+    const formattedName = formatName(datas.name)
+    const formattedCellphoneNumber = formatCellphoneNumber(datas.cellphone)
+
+    const userExist = await User.findOne({ email: datas.email })
 
     if (userExist) {
         throw new Error("Esse email já esta cadastrado")
     }
 
-    const datasError = validateDatas(datas)
-
-    if (datasError) {
-        throw new Error(datasError)
-    }
-
-    const formattedName = formatName(datas.name)
-    const formattedCellphoneNumber = formatCellphoneNumber(datas.cellphone)
 
     let isAdmin = false
-    
+
     if (datas.isAdmin) {
         isAdmin = true
     }
@@ -45,7 +42,7 @@ export const addUser = async (datas) => {
 
 export const userToken = async (userDatas) => {
 
-    const user = await User.findOne({email: userDatas.email})
+    const user = await User.findOne({ email: userDatas.email })
 
     if (!user) {
         throw new Error('Não usuário encontrado.')
