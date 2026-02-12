@@ -1,9 +1,10 @@
 import express from 'express'
 const router = express.Router()
 
-import { registerUser, login } from '../controllers/UserController.js'
+import { checkUserToken } from '../helpers/check-user-token.js'
 
-router.post('/register', registerUser)
-router.post('/login', login)
+import { loadHome } from '../controllers/UserController.js'
+
+router.get('/token', checkUserToken, loadHome)
 
 export default router
