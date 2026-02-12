@@ -2,7 +2,8 @@
 
 export const loadHome = (req, res) => {
 
-    res.status(200).json({message: 'Deu certo o teste'})
+    const userName = req.user.name
+
+    res.status(200).json({message: `Olá ${userName}`})
   
-    
 }

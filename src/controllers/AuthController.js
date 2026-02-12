@@ -2,14 +2,15 @@ import { addUser, userToken } from "../services/AuthrService.js"
 
 export const registerUser = async (req, res) => {
 
-    const { name, email, cellphone, password, confirmPassword } = req.body
+    const { name, email, cellphone, password, confirmPassword, isAdmin } = req.body
 
     const user = {
         name,
         email,
         cellphone,
         password,
-        confirmPassword
+        confirmPassword,
+        isAdmin
     }
 
     try {
