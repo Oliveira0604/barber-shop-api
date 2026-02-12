@@ -5,9 +5,11 @@ const Professional = mongoose.model(
     'Professional',
     new Schema({
         name: {type: String, required: true},
+        email: {type: String, required: true},
+        cellphone: {type: String, required: true},
         specialty: {type: String, required: true},
         active: {type: Boolean, default: true},
-        isAdmin: {type: Boolean, default: false}
+        isAdmin: {type: Boolean, default: true}
     })
 )
 

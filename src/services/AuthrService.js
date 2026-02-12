@@ -17,13 +17,6 @@ export const addUser = async (datas) => {
         throw new Error("Esse email já esta cadastrado")
     }
 
-
-    let isAdmin = false
-
-    if (datas.isAdmin) {
-        isAdmin = true
-    }
-
     // criptografing the password
     const salt = await bcrypt.genSalt(12)
     const hashedPassword = await bcrypt.hash(datas.password, salt)
@@ -33,7 +26,6 @@ export const addUser = async (datas) => {
         email: datas.email,
         cellphone: formattedCellphoneNumber,
         password: hashedPassword,
-        isAdmin
     })
 
     await user.save()

@@ -1,10 +1,10 @@
 import Professional from '../models/Professional.js'
-import { validateUserDatas } from '../helpers/validations.js'
+import { validateUserDatas, validateAdminDatas } from '../helpers/validations.js'
 import { formatName, formatCellphoneNumber } from '../helpers/formatting.js'
 
 export const addProfessional = async (datas) => {
 
-    validateUserDatas(datas)
+    validateAdminDatas(datas)
 
     const professionalExist = await Professional.findOne({ email: datas.email })
 
@@ -12,7 +12,15 @@ export const addProfessional = async (datas) => {
         throw new Error('Esse professional já está cadastrado.')
     }
 
-    const newProfessional = new Professional({
+    const formattedName = formatName(datas.name)
+    const formattedCellphone = formatCellphoneNumber(datas.cellphone)
 
+    const newProfessional = new Professional({
+        name: formattedName,
+        email: datas.email,
+        cellphone: datas.cellphone,
+        specialty: datas.specialty,
     })
+
+    await newProfessional.save()
 }

@@ -59,3 +59,26 @@ export const validateUserDatas = (datas) => {
     }
 
 }
+
+export const validateAdminDatas = (datas) => {
+
+    if (!datas.name || datas.name.trim() === "") {
+        throw new Error('O nome não pode estar vázio!')
+    }
+
+    if (!datas.email || datas.email.trim() === "") {
+        throw new Error('O email não pode estar vázio.')
+    }
+
+    if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(datas.email)) {
+        throw new Error('O email não está no formato correto.')
+    }
+
+    if (!datas.cellphone || datas.cellphone.trim() === "") {
+        throw new Error('O número do celular não pode estar vázio!')
+    }
+
+    if (!datas.specialty || datas.specialty.trim() === "") {
+        throw new Error('A especialidade não pode ser vázia')
+    }
+}
