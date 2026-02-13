@@ -1,10 +1,11 @@
 import express from 'express'
 const router = express.Router()
 
-import { checkUserToken } from '../helpers/check-user-token.js'
 
-import { loadHome } from '../controllers/UserController.js'
+import { loadHome, editPage, updateUser } from '../controllers/UserController.js'
 
-router.get('/token', checkUserToken, loadHome)
+router.get('/home', loadHome)
+router.get('/:id', editPage)
+router.patch('/edit/:id', updateUser)
 
 export default router

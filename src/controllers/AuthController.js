@@ -1,4 +1,4 @@
-import { addUser, userToken } from "../services/AuthrService.js"
+import { addUser, userToken } from "../services/AuthService.js"
 
 export const registerUser = async (req, res) => {
 
@@ -16,7 +16,7 @@ export const registerUser = async (req, res) => {
     try {
 
         await addUser(user)
-        res.status(200).json({
+        res.status(201).json({
             message: 'Usuário cadastrado com sucesso!'
         })
 
@@ -28,19 +28,19 @@ export const registerUser = async (req, res) => {
 
 export const login = async (req, res) => {
 
-    const { email, password } = req.body
-
-    const userDatas = {
-        email,
-        password
-    }
-
     try {
+        const { email, password } = req.body
+
+        const userDatas = {
+            email,
+            password
+        }
+
         const token = await userToken(userDatas)
         res.status(200).json({ message: 'Login efetuado com sucesso.', token, token_type: 'Bearer' })
 
     } catch (error) {
-        res.status(402).json({message: error.message})
-    }  
-    
+        res.status(400).json({ message: error.message })
+    }
+
 }

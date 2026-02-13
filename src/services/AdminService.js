@@ -15,11 +15,18 @@ export const addProfessional = async (datas) => {
     const formattedName = formatName(datas.name)
     const formattedCellphone = formatCellphoneNumber(datas.cellphone)
 
+    let isAdmin = false
+
+    if (isAdmin === "s") {
+        isAdmin = true
+    }
+
     const newProfessional = new Professional({
         name: formattedName,
         email: datas.email,
         cellphone: datas.cellphone,
         specialty: datas.specialty,
+        isAdmin
     })
 
     await newProfessional.save()

@@ -9,7 +9,7 @@ const Professional = mongoose.model(
         cellphone: {type: String, required: true},
         specialty: {type: String, required: true},
         active: {type: Boolean, default: true},
-        isAdmin: {type: Boolean, default: true}
+        isAdmin: {type: Boolean, default: false}
     })
 )
 
