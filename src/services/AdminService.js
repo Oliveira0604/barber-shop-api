@@ -1,4 +1,6 @@
 import Professional from '../models/Professional.js'
+import bcrypt from 'bcrypt'
+import Service from '../models/Service.js'
 import { validateUserDatas, validateAdminDatas } from '../helpers/validations.js'
 import { formatName, formatCellphoneNumber } from '../helpers/formatting.js'
 
@@ -15,9 +17,12 @@ export const addProfessional = async (datas) => {
     const formattedName = formatName(datas.name)
     const formattedCellphone = formatCellphoneNumber(datas.cellphone)
 
+    const salt = await bcrypt.genSalt(12)
+    const hashedPassword = await bcrypt.hash(datas.password, salt)
+
     let isAdmin = false
 
-    if (isAdmin === "s") {
+    if (datas.isAdmin === "s") {
         isAdmin = true
     }
 
@@ -25,6 +30,7 @@ export const addProfessional = async (datas) => {
         name: formattedName,
         email: datas.email,
         cellphone: datas.cellphone,
+        password: hashedPassword,
         specialty: datas.specialty,
         isAdmin
     })

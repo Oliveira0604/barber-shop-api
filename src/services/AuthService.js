@@ -1,4 +1,5 @@
 import User from '../models/User.js'
+import Professional from '../models/Professional.js'
 import bcrypt from 'bcrypt'
 import { validateUserDatas } from '../helpers/validations.js'
 import { formatName, formatCellphoneNumber } from '../helpers/formatting.js'
@@ -35,18 +36,36 @@ export const addUser = async (datas) => {
 export const userToken = async (userDatas) => {
 
     const user = await User.findOne({ email: userDatas.email })
+    const professional = await Professional.findOne({ email: userDatas.email })
 
-    if (!user) {
-        throw new Error('Não usuário encontrado.')
+    if (!user && !professional) {
+        throw new Error('Usuário não  encontrado.')
     }
 
-    const checkPassword = bcrypt.compare(userDatas.password, user.password)
+    if (user) {
 
-    if (!checkPassword) {
-        throw new Error('Email ou senha inválido.')
+        const checkUserPassword = bcrypt.compare(userDatas.password, user.password)
+
+        if (!checkUserPassword) {
+            throw new Error('Email ou senha inválido.')
+        }
+
+        const token = generateToken(user)
+
+        return token
     }
 
-    const token = generateToken(user)
+    if (professional) {
+        
+        const checkProfessionalPassword = bcrypt.compare(userDatas.password, professional.password)
 
-    return token
+        if (!checkProfessionalPassword) {
+            throw new Error('Email ou senha inválido.')
+        }
+
+        const token = generateToken(professional)
+
+        return token
+    }
+
 }

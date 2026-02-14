@@ -6,6 +6,7 @@ export const checkAdmin = (req, res, next) => {
     try {
 
         const isAdmin = req.user.isAdmin
+        console.log(isAdmin)
 
         if (!isAdmin) {
             throw new Error('Acesso negado')
