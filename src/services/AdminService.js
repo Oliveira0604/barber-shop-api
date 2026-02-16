@@ -37,3 +37,21 @@ export const addProfessional = async (datas) => {
 
     await newProfessional.save()
 }
+
+export const addService = async (datas) => {
+
+    const serviceExist = await Service.findOne({name: datas.name})
+
+    if (serviceExist) {
+
+        throw new Error('Esse serviço já está cadastrado.')
+    }
+
+    const newService =  new Service({
+        name: datas.name,
+        price: datas.price,
+        duration: datas.duration
+    })
+
+    await newService.save()
+}

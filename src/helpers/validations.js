@@ -110,3 +110,18 @@ export const validateAdminDatas = (datas) => {
         throw new Error('A especialidade não pode ser vázia')
     }
 }
+
+export const validateServiceDatas = (datas) => {
+
+    if (!datas.name || datas.name.trim() === "") {
+        throw new Error('O nome não pode estar vázio!')
+    }
+
+    if (datas.price < 0) {
+        throw new Error('O preço nõ pode ser menor do que zero.')
+    }
+
+    if (datas.duration < 0) {
+        throw new Error('A duração não pode ser menor do que zero.')
+    }
+}
