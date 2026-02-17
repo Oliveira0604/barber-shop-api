@@ -1,5 +1,4 @@
 import { addProfessional, addService } from '../services/AdminService.js'
-import { validateServiceDatas } from '../helpers/validations.js'
 
 export const addProfessionalPage = (req, res) => {
     try {
@@ -54,8 +53,6 @@ export const addServicePost = async (req, res) => {
             price,
             duration
         }
-
-        validateServiceDatas(datas)
 
         await addService(datas)
 

@@ -5,9 +5,9 @@ import { addProfessionalPage, addProfessionalPost, addServicePage, addServicePos
 import { checkAdmin } from '../helpers/check-admin.js'
 import { checkUserToken } from '../helpers/check-user-token.js'
 
-router.get('/addprofessional', checkUserToken, checkAdmin, addProfessionalPage)
-router.post('/addprofessional/save',  checkUserToken, checkAdmin, addProfessionalPost)
-router.get('/addservice', checkUserToken, checkAdmin, addServicePage)
-router.post('/addservice', checkUserToken, checkAdmin, addServicePost)
+router.get('/add-professional', checkUserToken, checkAdmin, addProfessionalPage)
+router.post('/add-professional',  checkUserToken, checkAdmin, addProfessionalPost)
+router.get('/add-service', checkUserToken, checkAdmin, addServicePage)
+router.post('/add-service', checkUserToken, checkAdmin, addServicePost)
 
 export default router

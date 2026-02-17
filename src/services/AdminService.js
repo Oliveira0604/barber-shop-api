@@ -1,7 +1,7 @@
 import Professional from '../models/Professional.js'
 import bcrypt from 'bcrypt'
 import Service from '../models/Service.js'
-import { validateUserDatas, validateAdminDatas } from '../helpers/validations.js'
+import { validateAdminDatas, validateServiceDatas } from '../helpers/validations.js'
 import { formatName, formatCellphoneNumber } from '../helpers/formatting.js'
 
 export const addProfessional = async (datas) => {
@@ -40,14 +40,16 @@ export const addProfessional = async (datas) => {
 
 export const addService = async (datas) => {
 
-    const serviceExist = await Service.findOne({name: datas.name})
+    validateServiceDatas(datas)
+
+    const serviceExist = await Service.findOne({ name: datas.name })
 
     if (serviceExist) {
 
         throw new Error('Esse serviço já está cadastrado.')
     }
 
-    const newService =  new Service({
+    const newService = new Service({
         name: datas.name,
         price: datas.price,
         duration: datas.duration

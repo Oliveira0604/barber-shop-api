@@ -1,4 +1,5 @@
 import User from '../models/User.js'
+import Schedule from '../models/Schedule.js'
 import bcrypt from 'bcrypt'
 
 import { validateUserDatas } from '../helpers/validations.js'
@@ -34,4 +35,21 @@ export const editUser = async (datas) => {
 
     await user.save()
 
+}
+
+export const getAvailableTimes = async (date, professionalName) => {
+
+    const workhours = ['08:00', '09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00']
+
+    const appointments = await Schedule.find({
+        date: date,
+        professional: professionalName,
+        status: 'scheduled'
+    })
+
+    const busyTimes = appointments.map(scheduled =>  scheduled.time)
+
+    const availableTimes = workhours.filter(hour => !busyTimes.includes(hour))
+
+    return availableTimes
 }

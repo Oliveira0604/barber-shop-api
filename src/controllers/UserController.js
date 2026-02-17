@@ -1,6 +1,6 @@
 import User from '../models/User.js'
 
-import { editUser } from '../services/UserService.js'
+import { editUser, getAvailableTimes } from '../services/UserService.js'
 
 export const loadHome = (req, res) => {
 
@@ -49,4 +49,27 @@ export const updateUser = async (req, res) => {
         res.status(400).json({message: error.message})
     }
 
+}
+
+export const scheduleServicePage = (req, res) => {
+
+    try {
+
+        const name = req.user.name
+
+        const {date, professionalName} = req.body
+
+        const times = getAvailableTimes(date, professionalName)
+
+        res.status(200).json({message: `Olá ${name}`}, times)
+
+    } catch (error) {
+        res.status(401).json({message: error.message})
+    }
+
+}
+
+export const availableTimes = async (req, res) => {
+
+    
 }
