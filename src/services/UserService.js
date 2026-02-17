@@ -51,5 +51,7 @@ export const getAvailableTimes = async (date, professionalName) => {
 
     const availableTimes = workhours.filter(hour => !busyTimes.includes(hour))
 
+    console.log(availableTimes)
+
     return availableTimes
 }

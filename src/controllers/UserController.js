@@ -20,7 +20,7 @@ export const editPage = (req, res) => {
         res.status(200).json({ message: userId })
 
     } catch (error) {
-        res.status(401).json({message: 'Acesso negado'})
+        res.status(401).json({ message: 'Acesso negado' })
     }
 
 }
@@ -30,7 +30,7 @@ export const updateUser = async (req, res) => {
     try {
 
         const id = req.params.id
-        const { name, email, cellphone, password, confirmPassword} = req.body
+        const { name, email, cellphone, password, confirmPassword } = req.body
 
         const datas = {
             id,
@@ -43,33 +43,31 @@ export const updateUser = async (req, res) => {
 
         await editUser(datas)
 
-        res.status(200).json({message: 'Atualizações feitas com sucesso.'})
+        res.status(200).json({ message: 'Atualizações feitas com sucesso.' })
 
     } catch (error) {
-        res.status(400).json({message: error.message})
+        res.status(400).json({ message: error.message })
     }
 
 }
 
-export const scheduleServicePage = (req, res) => {
+export const scheduleServicePage = async (req, res) => {
 
     try {
 
         const name = req.user.name
 
-        const {date, professionalName} = req.body
+        const { date, professionalName } = req.body
 
-        const times = getAvailableTimes(date, professionalName)
+        const times = await getAvailableTimes(date, professionalName)
 
-        res.status(200).json({message: `Olá ${name}`}, times)
+        res.status(200).json({
+            message: `Olá ${name}`,
+            times: times
+        })
 
     } catch (error) {
-        res.status(401).json({message: error.message})
+        res.status(401).json({ message: error.message })
     }
 
-}
-
-export const availableTimes = async (req, res) => {
-
-    
 }
