@@ -1,8 +1,10 @@
 import User from '../models/User.js'
 import Schedule from '../models/Schedule.js'
+import Professional from '../models/Professional.js'
+import Service from '../models/Service.js'
 import bcrypt from 'bcrypt'
 
-import { validateUserDatas } from '../helpers/validations.js'
+
 import { formatName, formatCellphoneNumber } from '../helpers/formatting.js'
 
 export const editUser = async (datas) => {
@@ -41,9 +43,16 @@ export const getAvailableTimes = async (date, professionalName) => {
 
     const workhours = ['08:00', '09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00']
 
+    const professional = await Professional.findOne({name: professionalName})
+
+    if (!professional) {
+        throw new Error('Profissional não encontrado.')
+    }
+
+
     const appointments = await Schedule.find({
         date: date,
-        professional: professionalName,
+        professional: professional._id,
         status: 'scheduled'
     })
 
@@ -51,7 +60,44 @@ export const getAvailableTimes = async (date, professionalName) => {
 
     const availableTimes = workhours.filter(hour => !busyTimes.includes(hour))
 
-    console.log(availableTimes)
-
     return availableTimes
+}
+
+export const schedule = async (appointmentDatas) => {
+
+     const professional = await Professional.findOne({name: appointmentDatas.professional})
+     const service = await Service.findOne({name: appointmentDatas.service})
+
+     if (!professional) {
+        throw new Error('Profissional não encontrado.')
+     }
+
+
+     if (!service) {
+        throw new Error('Serviço não encontrado.')
+     }
+
+    const appointments = await Schedule.find({
+        date: appointmentDatas.date,
+        professional: professional,
+        status: 'scheduled'
+    })
+
+    const busyTimes = appointments.map(scheduledTime => scheduledTime.time)
+    const busyDates = appointments.map(scheduledDate => scheduledDate.date )
+
+    if (busyTimes.includes(appointmentDatas.time) && busyDates.includes(appointmentDatas.date)) {
+        throw new Error('Horário indisponível')
+    }
+
+    const newAppointment = new Schedule({
+        user: appointmentDatas.user,
+        professional: professional,
+        service: service,
+        date: appointmentDatas.date,
+        time: appointmentDatas.time
+    })
+
+    await newAppointment.save()
+
 }

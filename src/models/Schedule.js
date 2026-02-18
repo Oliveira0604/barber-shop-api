@@ -8,7 +8,7 @@ const Schedules = mongoose.model(
         professional: {type: Schema.Types.ObjectId, ref: 'Professional', required: true},
         service: {type: Schema.Types.ObjectId, ref: 'Service', required: true},
         date: {type: Date, required: true},
-        time: {type: Number, required: true},
+        time: {type: String, required: true},
         status: {type: String, required: true, enum: {values: ['scheduled', 'cancelled']}, default: 'scheduled'}
     }, {timestamp: true})
 )
