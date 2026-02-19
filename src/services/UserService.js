@@ -83,10 +83,9 @@ export const schedule = async (appointmentDatas) => {
         status: 'scheduled'
     })
 
-    const busyTimes = appointments.map(scheduledTime => scheduledTime.time)
-    const busyDates = appointments.map(scheduledDate => scheduledDate.date )
+    const busyTimes = appointments.map(scheduledTime => String(scheduledTime.time))
 
-    if (busyTimes.includes(appointmentDatas.time) && busyDates.includes(appointmentDatas.date)) {
+    if (busyTimes.includes(String(appointmentDatas.time))) {
         throw new Error('Horário indisponível')
     }
 
@@ -100,4 +99,18 @@ export const schedule = async (appointmentDatas) => {
 
     await newAppointment.save()
 
+}
+
+export const cancel = async (userId) => {
+
+    const appointment = await Schedule.findOne({
+        user: userId
+    })
+
+    if (!appointment) {
+        throw new Error('Nenhum agendamento encontrado.')
+    }
+
+    appointment.status = 'cancelled'
+    appointment.save()
 }

@@ -1,6 +1,6 @@
 import User from '../models/User.js'
 
-import { editUser, getAvailableTimes, schedule } from '../services/UserService.js'
+import { editUser, getAvailableTimes, schedule, cancel } from '../services/UserService.js'
 
 export const loadHome = (req, res) => {
 
@@ -90,6 +90,21 @@ export const scheduleService = async (req, res) => {
 
         res.status(201).json({message: 'Agendado com sucesso'})
 
+    } catch (error) {
+        res.status(401).json({message: error.message})
+    }
+}
+
+export const cancelAppointment = async (req, res) => {
+
+    try {
+
+        const userId = req.params.id
+
+        await cancel(userId)
+        
+        res.status(201).json({message: 'Agendamento cancelado.'})
+        
     } catch (error) {
         res.status(401).json({message: error.message})
     }
