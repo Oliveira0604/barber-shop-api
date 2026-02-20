@@ -1,4 +1,4 @@
-import { addProfessional, addService } from '../services/AdminService.js'
+import { addProfessional, addService, appointments } from '../services/AdminService.js'
 
 export const addProfessionalPage = (req, res) => {
     try {
@@ -58,6 +58,21 @@ export const addServicePost = async (req, res) => {
 
         res.status(201).json({message: 'Serviço cadastrado com sucesso.'})
         
+    } catch (error) {
+        res.status(401).json({message: error.message})
+    }
+}
+
+export const getAllAppointments = async (req, res) => {
+
+    try {
+        
+        const date = req.body.date
+
+        const showAppointments = await appointments(date)
+
+        res.status(200).json(showAppointments)
+
     } catch (error) {
         res.status(401).json({message: error.message})
     }

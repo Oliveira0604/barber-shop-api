@@ -1,4 +1,5 @@
 import Professional from '../models/Professional.js'
+import Schedule from '../models/Schedule.js'
 import bcrypt from 'bcrypt'
 import Service from '../models/Service.js'
 import { validateAdminDatas, validateServiceDatas } from '../helpers/validations.js'
@@ -56,4 +57,30 @@ export const addService = async (datas) => {
     })
 
     await newService.save()
+}
+
+export const appointments = async (date) => {
+
+    const serachDate = new Date(date)
+
+    const appointments = await Schedule.find({
+        date: serachDate
+    }).populate('professional')
+
+
+    if (appointments.length === 0) {
+        throw new Error(`Nenhum agendamento econtrado para o dia ${date}`)
+    }
+
+    const list = appointments.map(data => {
+        return {
+            date: data.date,
+            professional: data.professional.name,
+            time: data.time
+        }
+
+    })
+
+    return list
+
 }
